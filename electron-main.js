@@ -50,7 +50,12 @@ if (!gotTheLock) {
             },
         });
 
-        app.setLoginItemSettings({ openAtLogin: true });
+        if (app.isPackaged) {
+            app.setLoginItemSettings({
+                openAtLogin: true,
+                path: app.getPath('exe') // Forces Windows to specifically look for your finished .exe
+            });
+        }
 
         ipcMain.on('save-bounds', () => {
             if (win) store.set('widget-bounds', win.getBounds());
